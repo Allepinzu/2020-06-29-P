@@ -8,6 +8,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.PremierLeague.model.Match;
+import it.polito.tdp.PremierLeague.model.Mese;
 import it.polito.tdp.PremierLeague.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -39,29 +42,40 @@ public class FXMLController {
     private TextField txtMinuti; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbMese"
-    private ComboBox<?> cmbMese; // Value injected by FXMLLoader
+    private ComboBox<Mese> cmbMese; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbM1"
-    private ComboBox<?> cmbM1; // Value injected by FXMLLoader
+    private ComboBox<Match> cmbM1; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbM2"
-    private ComboBox<?> cmbM2; // Value injected by FXMLLoader
+    private ComboBox<Match> cmbM2; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
 
     @FXML
     void doConnessioneMassima(ActionEvent event) {
-    	
+    	this.txtResult.clear();
+    	this.txtResult.appendText(this.model.matchMigliori());
     }
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
-    	
+    	model.creaGrafo(Integer.parseInt( this.txtMinuti.getText()),this.cmbMese.getValue().getMese());
+    	this.txtResult.appendText(model.numVA());
+    	this.cmbM1.getItems().addAll(model.getVertexSet());
+    	this.cmbM2.getItems().addAll(model.getVertexSet());
     }
 
     @FXML
     void doCollegamento(ActionEvent event) {
+    	this.model.listaMigliore(this.cmbM1.getValue(), this.cmbM2.getValue());
+    	this.txtResult.clear();
+    	for(Match m:model.getMigliore())
+    	this.txtResult.appendText(m.toString()+"\n");
+    	
+    	this.txtResult.appendText(Double.toString( this.model.getPesoTot()));
+    	
     	
     }
 
@@ -79,7 +93,19 @@ public class FXMLController {
     
     public void setModel(Model model) {
     	this.model = model;
-  
+    
+    	this.cmbMese.getItems().add(new Mese(1,"Gennaio"));
+    	this.cmbMese.getItems().add(new Mese(2,"Febbraio"));
+    	this.cmbMese.getItems().add(new Mese(3,"Marzo"));
+    	this.cmbMese.getItems().add(new Mese(4,"Aprile"));
+    	this.cmbMese.getItems().add(new Mese(5,"Maggio"));
+    	this.cmbMese.getItems().add(new Mese(6,"Giugno"));
+    	this.cmbMese.getItems().add(new Mese(7,"Luglio"));
+    	this.cmbMese.getItems().add(new Mese(8,"Agosto"));
+    	this.cmbMese.getItems().add(new Mese(9,"Settembre"));
+    	this.cmbMese.getItems().add(new Mese(10,"Ottobre"));
+    	this.cmbMese.getItems().add(new Mese(11,"Novembre"));
+    	this.cmbMese.getItems().add(new Mese(12,"Dicembre"));
     }
     
     
